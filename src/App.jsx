@@ -16,7 +16,7 @@ function App() {
   const [searchedFilms, setSearchedFilms] = useState(films);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("Tutti i generi")
-  const [newFilm, setNewFilm] = useState("");
+  const [newFilm, setNewFilm] = useState({ title: "", genre: "" });
 
   useEffect(() => {
     setSearchedFilms(
@@ -26,6 +26,25 @@ function App() {
       )
     )
   }, [search, films, filter]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setNewFilm({
+      ...newFilm,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setFilms([...films, newFilm]);
+    setNewFilm({
+      title: "",
+      genre: ""
+    });
+  };
+
 
   return (
     <div className="container">
@@ -41,7 +60,7 @@ function App() {
 
         <div className="col-6">
           <select className="form-select" aria-label="Default select example" onChange={e => setFilter(e.target.value)}>
-            <option selected>Tutti i generi</option>
+            <option value="Tutti i generi">Tutti i generi</option>
             <option value="Fantascienza">Fantascienza</option>
             <option value="Thriller">Thriller</option>
             <option value="Romantico">Romantico</option>
@@ -62,6 +81,40 @@ function App() {
           ))
         }
       </ul>
+
+      <hr />
+
+      <h3>Aggiungi un film</h3>
+
+      <form onSubmit={handleSubmit}>
+        <div className='input-group mt-3 row'>
+          <div className="col-5">
+            <input type="text"
+              className='form-control'
+              name="title"
+              placeholder='Che film vuoi aggiungere?'
+              value={newFilm.title}
+              required
+              onChange={handleChange} />
+          </div>
+
+          <div className="col-5">
+            <input type="text"
+              className='form-control'
+              name="genre"
+              placeholder='Di che genere è?'
+              value={newFilm.genre}
+              required
+              onChange={handleChange} />
+          </div>
+
+          <div className="col-2">
+            <button className='btn btn-outline-secondary'> Aggiungi </button>
+          </div>
+
+        </div>
+      </form>
+
     </div>
   )
 }
