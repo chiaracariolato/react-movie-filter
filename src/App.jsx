@@ -12,11 +12,14 @@ function App() {
     { title: 'Pulp Fiction', genre: 'Thriller' },
   ]
 
+  const initialFilters = ['Fantascienza', 'Thriller', 'Romantico', 'Azione']
+
   const [films, setFilms] = useState(initialFilms);
   const [searchedFilms, setSearchedFilms] = useState(films);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("Tutti i generi")
   const [newFilm, setNewFilm] = useState({ title: "", genre: "" });
+  const [filterList, setFilterList] = useState(initialFilters);
 
   useEffect(() => {
     setSearchedFilms(
@@ -38,6 +41,9 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!filterList.includes(newFilm.genre)) {
+      setFilterList([...filterList, newFilm.genre]);
+    }
     setFilms([...films, newFilm]);
     setNewFilm({
       title: "",
@@ -61,10 +67,11 @@ function App() {
         <div className="col-6">
           <select className="form-select" aria-label="Default select example" onChange={e => setFilter(e.target.value)}>
             <option value="Tutti i generi">Tutti i generi</option>
-            <option value="Fantascienza">Fantascienza</option>
-            <option value="Thriller">Thriller</option>
-            <option value="Romantico">Romantico</option>
-            <option value="Azione">Azione</option>
+            {
+              filterList.map((filter, i) => (
+                <option value={filter} key={i}>{filter}</option>
+              ))
+            }
           </select>
         </div>
 
