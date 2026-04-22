@@ -1,20 +1,11 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import movies from './Movies.json'
+import initialFilters from './Filters.json'
 
 function App() {
 
-  const initialFilms = [
-    { title: 'Inception', genre: 'Fantascienza' },
-    { title: 'Il Padrino', genre: 'Thriller' },
-    { title: 'Titanic', genre: 'Romantico' },
-    { title: 'Batman', genre: 'Azione' },
-    { title: 'Interstellar', genre: 'Fantascienza' },
-    { title: 'Pulp Fiction', genre: 'Thriller' },
-  ]
-
-  const initialFilters = ['Fantascienza', 'Thriller', 'Romantico', 'Azione']
-
-  const [films, setFilms] = useState(initialFilms);
+  const [films, setFilms] = useState(movies);
   const [searchedFilms, setSearchedFilms] = useState(films);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("Tutti i generi")
